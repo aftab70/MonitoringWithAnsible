@@ -1,1 +1,33 @@
+- name: Install Grafana
+  hosts: grafana
+  become: true
+  
+  tasks:
+  - name: Update apt-get repo and cache
+    apt: update_cache=yes force_apt_get=yes cache_valid_time=3600 
 
+  - name: Installing Dependencies 
+    apt:
+      apt:
+        pkg:
+          - adduser
+          - libfontconfig1
+        state: present
+        update_cache: yes 
+      
+  - name: Installing Grafana
+    apt:
+      deb: https://dl.grafana.com/oss/release/grafana_9.3.1_amd64.deb
+  
+  - name: Starting and enabling Grafana service
+    service:
+      name: grafana-server
+      state: started
+      enabled: yes
+ 
+  
+  - name: Wait for Grafana to start
+    wait_for:
+      host: localhost
+      port: 3000
+      state: started
