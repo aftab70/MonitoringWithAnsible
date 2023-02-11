@@ -8,12 +8,11 @@
 
   - name: Installing Dependencies 
     apt:
-      apt:
-        pkg:
-          - adduser
-          - libfontconfig1
-        state: present
-        update_cache: yes 
+      pkg:
+        - adduser
+        - libfontconfig1
+      state: present
+      update_cache: yes 
       
   - name: Installing Grafana
     apt:
